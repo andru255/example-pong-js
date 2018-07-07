@@ -55,8 +55,6 @@ Ball.prototype._checkBounds = function(engine) {
 Ball.prototype._collisionWithPlayer = function(engine) {
     var player = engine.actors.player;
     if (Utils.itContainsAABB(this, player)) {
-        console.log("ball:", this.x, this.y);
-        console.log("player:", player.x, player.y);
         this.x = player.x + player.width;
         this.velocityX = -this.velocityX;
     }
