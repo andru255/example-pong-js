@@ -7,6 +7,8 @@ function Ball(x, y, radius) {
     this.radius = radius || 10;
     this.lineWidth = 1;
     this.color = "#ff00ff";
+    this.width = this.radius * 2;
+    this.height = this.radius * 2;
 }
 
 Ball.prototype.constructor = Actor.prototype.constructor;
@@ -19,6 +21,7 @@ Ball.prototype.init = function(engine) {
 Ball.prototype.update = function(engine) {
     this._move(engine);
     this._checkBounds(engine);
+    this._collisionWithPlayer(engine);
 };
 
 Ball.prototype.render = function(engine) {
@@ -47,3 +50,14 @@ Ball.prototype._checkBounds = function(engine) {
         this.velocityY *= this.bounce;
     } 
 };
+
+// collision with player
+Ball.prototype._collisionWithPlayer = function(engine) {
+    var player = engine.actors.player;
+    if (Utils.itContainsAABB(this, player)) {
+        console.log("ball:", this.x, this.y);
+        console.log("player:", player.x, player.y);
+        this.x = player.x + player.width;
+        this.velocityX = -this.velocityX;
+    }
+}
