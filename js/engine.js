@@ -1,7 +1,7 @@
 function Actor() {
     this.x = 0;
     this.y = 0;
-    this.with = 0;
+    this.width = 0;
     this.height = 0;
     this.color = "#ff00ff";
 };
@@ -38,9 +38,11 @@ Game.prototype.addActor = function(name, actorSelf) {
 };
 
 Game.prototype.runActorsWithEvent = function(eventName) {
-    for (var actor in this.actors ) {
-        this.actors[actor][eventName](this);
-    }
+    var that = this;
+    Object.keys(this.actors).forEach(function(actorName){
+        var actor = that.actors[actorName];
+        actor[eventName](that);
+    });
 };
 
 Game.prototype.loop = function(everyFrame) {

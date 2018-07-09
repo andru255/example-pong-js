@@ -13,7 +13,7 @@ function Player() {
     this.velocityYMax = 25;
     this.acceleration = 2;
     this.friction = 0.85;
-    this.color = "#0000ff";
+    this.color = "#BC7593";
     this.angle = 0 * Math.PI / 180; //radians
 }
 
@@ -77,8 +77,9 @@ Player.prototype._checkBounds = function(engine) {
 // collision with ball
 Player.prototype._collisionWithBall = function(engine) {
     var ball = engine.actors.ball;
-    if (Utils.itContainsAABB(this, ball)) {
+    if (Utils.itContainsAABB(ball, this)) {
         this.angle = this._getAngleRotateOnCollision(ball);
+        ball.velocityX *= -1;
     }
     this.angle += (0 - this.angle) * 0.1;
 };
