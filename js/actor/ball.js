@@ -10,6 +10,7 @@ function Ball(x, y, radius) {
     this.color = "#65CBE2";
     this.width = this.radius;
     this.height = this.radius;
+    this.angle = 0 * Math.PI / 180;
 }
 
 Ball.prototype.constructor = Actor.prototype.constructor;
@@ -45,10 +46,26 @@ Ball.prototype._move = function(engine) {
 };
 
 Ball.prototype._checkBounds = function(engine) {
-    if ( (this.x <= 0) || (this.x + (this.width*2) >= engine.canvas.width ) ) {
+    // huds
+    var scorePlayer = engine.actors.scorePlayer;
+    var scoreEnemy = engine.actors.scoreEnemy;
+    
+    // left&right edges
+    var wasToLeft = (this.x <= 0);
+    var wasToRight = (this.x + (this.width*2) >= engine.canvas.width);
+
+    if (wasToLeft) {
+        scoreEnemy.score += 1;
+    } else if (wasToRight) {
+        scorePlayer.score += 1;
+    }
+
+    // Reset ball
+    if (wasToLeft || wasToRight) {
         this.x = engine.canvas.width / 2;
         this.y = engine.canvas.height / 2;
     } 
+
     if ( (this.y <= 0) || (this.y + (this.height*2) >= engine.canvas.height ) ) {
         this.velocityY *= this.bounce;
     } 

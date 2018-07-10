@@ -29,6 +29,9 @@ Game.prototype.start = function(everyFrame) {
     if (!this.hasStarted) {
         this.runActorsWithEvent('init');
         this.hasStarted = true;
+        if(typeof this.init === "function") {
+            this.init(this);
+        }
     }
     this.loop(everyFrame);
 };
@@ -45,11 +48,14 @@ Game.prototype.runActorsWithEvent = function(eventName) {
     });
 };
 
-Game.prototype.loop = function(everyFrame) {
+Game.prototype.loop = function() {
     var that = this;
     (function drawFrame() {
         window.requestAnimationFrame(drawFrame, that.canvas);
         that.ctx.clearRect(0, 0, that.canvas.width, that.canvas.height);
+        if(typeof that.everyPreFrame === "function") {
+            that.everyPreFrame(that);
+        }
         that.runActorsWithEvent('update');
         that.runActorsWithEvent('render');
     })();

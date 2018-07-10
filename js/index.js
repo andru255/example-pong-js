@@ -6,10 +6,27 @@ var player = new Player();
 var enemy = new Enemy();
 var ball = new Ball();
 
-//adding actors to the game
+// scores
+var scorePlayer = new ScorePlayer();
+var scoreEnemy = new ScoreEnemy();
+
+// adding actors to the game
 game.addActor("player", player);
 game.addActor("enemy", enemy);
 game.addActor("ball", ball);
 
-// starting the game
+// adding HUD
+game.addActor("scorePlayer", scorePlayer);
+game.addActor("scoreEnemy", scoreEnemy);
+
+// decoration line
+game.everyPreFrame = function(engine) {
+    var lineSplit = {
+        x: engine.canvas.width / 2,
+        y: 10,
+        width: 2,
+        height: engine.canvas.height - 20
+    };
+    Utils.drawRectangleOn(engine.ctx, lineSplit.x, lineSplit.y, lineSplit.width, lineSplit.height, 1, "#fff");
+};
 game.start();
