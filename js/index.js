@@ -19,8 +19,8 @@ game.addActor("ball", ball);
 game.addActor("scorePlayer", scorePlayer);
 game.addActor("scoreEnemy", scoreEnemy);
 
-// decoration line
 game.everyPreFrame = function(engine) {
+    // decoration line
     var lineSplit = {
         x: engine.canvas.width / 2,
         y: 10,

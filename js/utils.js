@@ -26,13 +26,17 @@ Utils.drawText = function(ctx, x, y, text, color) {
 };
 
 Utils.itContainsAABB = function(a, b) {
-    var left = a.x + a.width < b.x;
-    var right = a.x > b.x + b.width; 
-    var top = a.y + a.height < b.y;
-    var bottom = a.y > b.y + b.height;
+    var left = ( a.x + a.width ) < b.x;
+    var right = a.x > ( b.x + b.width ); 
+    var top = ( a.y + a.height ) < b.y;
+    var bottom = a.y > ( b.y + b.height );
     return !(left || right || top || bottom);
 };
 
 Utils.getRandomInt = function(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+Utils.getRandomValueFromArray = function(arrayOfValues) {
+    return arrayOfValues[Math.floor(Utils.getRandomInt(0, arrayOfValues.length - 1))];
 };

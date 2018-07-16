@@ -1,7 +1,7 @@
 function Player() {
     this.x = 0;
     this.y = 10;
-    this.width = 50;
+    this.width = 20;
     this.height = 150;
     this.keys = {
         up: 38, 
@@ -79,7 +79,8 @@ Player.prototype._collisionWithBall = function(engine) {
     var ball = engine.actors.ball;
     if (Utils.itContainsAABB(ball, this)) {
         this.angle = this._getAngleRotateOnCollision(ball);
-        ball.velocityX *= -1;
+        ball.x = this.width;
+        ball.velocityX *= ball.bounce;
     }
     this.angle += (0 - this.angle) * 0.1;
 };

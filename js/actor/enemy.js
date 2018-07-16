@@ -1,7 +1,7 @@
 function Enemy() {
     this.x = 10;
     this.y = 10;
-    this.width = 50;
+    this.width = 20;
     this.height = 150;
     this.color = "#FFFFC6";
     this.velocityY = 0;
@@ -70,7 +70,8 @@ Enemy.prototype._collisionWithBall = function(engine) {
     var ball = engine.actors.ball;
     if (Utils.itContainsAABB(ball, this)) {
         this.angle = this._getAngleRotateOnCollision(ball);
-        ball.velocityX *= -1;
+        ball.x = ( engine.canvas.width - this.width ) - ball.width;
+        ball.velocityX *= ball.bounce;
     }
     this.angle += (0 - this.angle) * 0.1;
 };

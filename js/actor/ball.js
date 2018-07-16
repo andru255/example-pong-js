@@ -4,7 +4,8 @@ function Ball(x, y, radius) {
     this.speed = 5;
     this.velocityX = 0; 
     this.velocityY = 0; 
-    this.bounce = -1;
+    this.initialBounce = -1;
+    this.bounce = this.initialBounce;
     this.radius = radius || 20;
     this.lineWidth = 1;
     this.color = "#65CBE2";
@@ -33,7 +34,9 @@ Ball.prototype.render = function(engine) {
     ctx.lineWidth = this.lineWidth;
     ctx.fillStyle = this.color;
     ctx.beginPath();
-    ctx.arc(this.x + this.radius, this.y + this.radius, this.radius, 0, (Math.PI * 2), true);
+    ctx.translate(this.x + this.radius, this.y + this.radius);
+    ctx.rotate(this.angle);
+    ctx.arc(0, 0, this.radius, 0, (Math.PI * 2), true);
     ctx.closePath();
     ctx.fill();
     ctx.restore();
@@ -52,7 +55,7 @@ Ball.prototype._checkBounds = function(engine) {
     
     // left&right edges
     var wasToLeft = (this.x <= 0);
-    var wasToRight = (this.x + (this.width*2) >= engine.canvas.width);
+    var wasToRight = (this.x + (this.width) >= engine.canvas.width);
 
     if (wasToLeft) {
         scoreEnemy.score += 1;
@@ -62,8 +65,11 @@ Ball.prototype._checkBounds = function(engine) {
 
     // Reset ball
     if (wasToLeft || wasToRight) {
+        this.velocityX = Utils.getRandomValueFromArray([-5, 5]);
+        this.velocityY = Utils.getRandomValueFromArray([-5, 5]);
         this.x = engine.canvas.width / 2;
         this.y = engine.canvas.height / 2;
+        this.bounce = this.initialBounce;
     } 
 
     if ( (this.y <= 0) || (this.y + (this.height*2) >= engine.canvas.height ) ) {
