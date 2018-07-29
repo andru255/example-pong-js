@@ -4,6 +4,7 @@ function Ball(x, y, radius) {
     this.speed = 5;
     this.velocityX = 0; 
     this.velocityY = 0; 
+    this.velocityRadius = 0.1;
     this.initialBounce = -1;
     this.bounce = this.initialBounce;
     this.radius = radius || 20;
@@ -36,16 +37,24 @@ Ball.prototype.render = function(engine) {
     ctx.beginPath();
     ctx.translate(this.x + this.radius, this.y + this.radius);
     ctx.rotate(this.angle);
-    ctx.arc(0, 0, this.radius, 0, (Math.PI * 2), true);
+    ctx.arc(0, 0, this.radius, 0, Math.PI * 2, true);
     ctx.closePath();
     ctx.fill();
     ctx.restore();
+
+    // render debug line rotation
+    var lineX = this.x + this.radius;
+    var lineY = this.y + this.radius;
+    Utils.drawRectangleOn(ctx, lineX, lineY, 1, this.radius, this.lineWidth, "#f00", this.angle);
 };
 
 // custom ball behavior
 Ball.prototype._move = function(engine) {
     this.x += this.velocityX;
     this.y += this.velocityY;
+
+    //rotation
+    this.angle += this.velocityRadius;
 };
 
 Ball.prototype._checkBounds = function(engine) {

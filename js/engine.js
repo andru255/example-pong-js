@@ -23,6 +23,7 @@ function Game(canvasId) {
     this.ctx = this.canvas.getContext("2d");
     this.actors = {};
     this.hasStarted = false;
+    this.animationLoop = null;
 };
 
 Game.prototype.start = function(everyFrame) {
@@ -51,7 +52,7 @@ Game.prototype.runActorsWithEvent = function(eventName) {
 Game.prototype.loop = function() {
     var that = this;
     (function drawFrame() {
-        window.requestAnimationFrame(drawFrame, that.canvas);
+        that.animationLoop = window.requestAnimationFrame(drawFrame, that.canvas);
         that.ctx.clearRect(0, 0, that.canvas.width, that.canvas.height);
         if(typeof that.everyPreFrame === "function") {
             that.everyPreFrame(that);
@@ -59,4 +60,8 @@ Game.prototype.loop = function() {
         that.runActorsWithEvent('update');
         that.runActorsWithEvent('render');
     })();
+};
+
+Game.prototype.stop = function() {
+    window.cancelAnimationFrame(this.animationLoop);
 };

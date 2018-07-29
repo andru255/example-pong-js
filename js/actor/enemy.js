@@ -72,6 +72,7 @@ Enemy.prototype._collisionWithBall = function(engine) {
         this.angle = this._getAngleRotateOnCollision(ball);
         ball.x = ( engine.canvas.width - this.width ) - ball.width;
         ball.velocityX *= ball.bounce;
+        ball.velocityRadius *= ball.bounce;
     }
     this.angle += (0 - this.angle) * 0.1;
 };

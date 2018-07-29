@@ -77,11 +77,15 @@ Player.prototype._checkBounds = function(engine) {
 // collision with ball
 Player.prototype._collisionWithBall = function(engine) {
     var ball = engine.actors.ball;
+
+    // classic collisions
     if (Utils.itContainsAABB(ball, this)) {
         this.angle = this._getAngleRotateOnCollision(ball);
         ball.x = this.width;
         ball.velocityX *= ball.bounce;
+        ball.velocityRadius *= ball.bounce;
     }
+
     this.angle += (0 - this.angle) * 0.1;
 };
 
