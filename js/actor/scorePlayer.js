@@ -12,6 +12,7 @@ function ScorePlayer(x, y) {
 ScorePlayer.prototype.constructor = Actor.prototype.constructor;
 
 ScorePlayer.prototype.init = function(engine) {
+    this.score = 0;
     this.x = ( engine.canvas.width / 2 ) - 50;
 };
 

@@ -10,6 +10,11 @@ var ball = new Ball();
 var scorePlayer = new ScorePlayer();
 var scoreEnemy = new ScoreEnemy();
 
+// prompt
+var promptWelcome = new PromptWelcome();
+var prompt = new Prompt();
+var promptResult = new PromptResult();
+
 // adding actors to the game
 game.addActor("player", player);
 game.addActor("enemy", enemy);
@@ -18,6 +23,11 @@ game.addActor("ball", ball);
 // adding HUD
 game.addActor("scorePlayer", scorePlayer);
 game.addActor("scoreEnemy", scoreEnemy);
+
+// adding the prompt
+game.addChildSurface("promptWelcome", promptWelcome);
+game.addChildSurface("prompt", prompt);
+game.addChildSurface("promptResult", promptResult);
 
 game.everyPreFrame = function(engine) {
     // decoration line
@@ -29,4 +39,7 @@ game.everyPreFrame = function(engine) {
     };
     Utils.drawRectangleOn(engine.ctx, lineSplit.x, lineSplit.y, lineSplit.width, lineSplit.height, 1, "#fff");
 };
-game.start();
+
+window.onload = function() {
+    game.start();
+};

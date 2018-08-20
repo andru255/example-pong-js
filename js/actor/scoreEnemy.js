@@ -12,6 +12,7 @@ function ScoreEnemy(x, y) {
 ScoreEnemy.prototype.constructor = Actor.prototype.constructor;
 
 ScoreEnemy.prototype.init = function(engine) {
+    this.score = 0;
     this.x = ( engine.canvas.width / 2 ) + 50;
 };
 
