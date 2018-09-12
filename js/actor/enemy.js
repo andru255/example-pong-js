@@ -73,6 +73,7 @@ Enemy.prototype._collisionWithBall = function(engine) {
         ball.x = ( engine.canvas.width - this.width ) - ball.width;
         ball.velocityX *= ball.bounce;
         ball.velocityRadius *= ball.bounce;
+        sound.paddleResistance();
     }
     this.angle += (0 - this.angle) * 0.1;
 };

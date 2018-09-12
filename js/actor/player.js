@@ -84,6 +84,7 @@ Player.prototype._collisionWithBall = function(engine) {
         ball.x = this.width;
         ball.velocityX *= ball.bounce;
         ball.velocityRadius *= ball.bounce;
+        sound.paddleResistance();
     }
 
     this.angle += (0 - this.angle) * 0.1;

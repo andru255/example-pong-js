@@ -83,5 +83,6 @@ Ball.prototype._checkBounds = function(engine) {
 
     if ( (this.y <= 0) || (this.y + (this.height*2) >= engine.canvas.height ) ) {
         this.velocityY *= this.bounce;
+        sound.boundResistance();
     } 
 };

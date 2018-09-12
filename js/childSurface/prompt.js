@@ -92,7 +92,7 @@ Prompt.prototype.init = function(engine) {
 
 Prompt.prototype.render = function(engine) {
     var ctx = engine.canvas.getContext("2d");
-    var needsShow = this.isHidden ? false : true
+    var needsShow = this.isHidden ? false : true;
     this.btnReset.hide();
     this.btnResume.hide();
 
@@ -119,8 +119,9 @@ Prompt.prototype.listenEvents = function(engine) {
     // checks if welcome prompt still show in
     // listen ESC key
     engine.events.on(document, "keydown.showPrompt", function(evt){
-        var isWelcomePromptIsHidden = engine.childrenSurface.promptWelcome.isHidden;
-        if (!isWelcomePromptIsHidden) {
+        var welcomePromptIsHidden = engine.childrenSurface.promptWelcome.isHidden;
+        var resultPromptIsHidden = engine.childrenSurface.promptResult.isHidden;
+        if (!welcomePromptIsHidden || !resultPromptIsHidden) {
             return false;
         }
         // ESC

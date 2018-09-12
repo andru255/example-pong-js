@@ -1,5 +1,7 @@
+// Setup game&soundG
 var canvasId = "myCanvas";
 var game = new Game(canvasId);
+var sound = new Sound();
 
 // actors
 var player = new Player();
