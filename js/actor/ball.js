@@ -68,8 +68,10 @@ Ball.prototype._checkBounds = function(engine) {
 
     if (wasToLeft) {
         scoreEnemy.score += 1;
+        sound.ballOut();
     } else if (wasToRight) {
         scorePlayer.score += 1;
+        sound.ballOut();
     }
 
     // Reset ball

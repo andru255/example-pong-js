@@ -3,10 +3,19 @@ function Sound() {
 
 Sound.prototype.boundResistance = function() {
     this._setup();
-    this.oscillator.frequency.value = 207.65; //G#
+    this.oscillator.frequency.value = 46.25; //F#
     this.gainNode.gain.setValueAtTime(0, this.context.currentTime);
-    this.gainNode.gain.linearRampToValueAtTime(1, this.context.currentTime + 0.01);
+    this.gainNode.gain.linearRampToValueAtTime(1, this.context.currentTime + 0.001);
     this.oscillator.start(this.context.currentTime);
+    this._stop();
+};
+
+Sound.prototype.ballOut = function() {
+    this._setup();
+    var now = this.context.currentTime;
+    this.oscillator.frequency.setValueAtTime(466.16, now);
+    this.gainNode.gain.linearRampToValueAtTime(1, this.context.currentTime + 0.001);
+    this.oscillator.start();
     this._stop();
 };
 
