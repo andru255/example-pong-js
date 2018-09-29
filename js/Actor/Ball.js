@@ -11,27 +11,27 @@ function Ball(x, y, radius) {
     this.lineWidth = 1;
     this.defaultColor = "#65CBE2";
     this.color = this.defaultColor;
-    this.width = this.radius;
+    this.width = this.radius * 2;
     this.height = this.radius;
     this.angle = 0 * Math.PI / 180;
 }
 
 Ball.prototype.constructor = Actor.prototype.constructor;
 
-Ball.prototype.init = function(engine) {
-    this.x = engine.canvas.width / 2;
-    this.y = engine.canvas.height / 2;
+Ball.prototype.init = function(game) {
+    this.x = game.canvas.width / 2;
+    this.y = game.canvas.height / 2;
     this.velocityX = this.speed;
     this.velocityY = this.speed;
 };
 
-Ball.prototype.update = function(engine) {
-    this._move(engine);
-    this._checkBounds(engine);
+Ball.prototype.update = function(game) {
+    this._move(game);
+    this._checkBounds(game);
 };
 
-Ball.prototype.render = function(engine) {
-    var ctx = engine.ctx;
+Ball.prototype.render = function(game) {
+    var ctx = game.ctx;
     ctx.save();
     ctx.lineWidth = this.lineWidth;
     ctx.fillStyle = this.color;
@@ -50,49 +50,49 @@ Ball.prototype.render = function(engine) {
 };
 
 // custom ball behavior
-Ball.prototype._move = function(engine) {
+Ball.prototype._move = function(game) {
     this.x += this.velocityX;
     this.y += this.velocityY;
     //rotation
     this.angle += this.velocityRadius;
 };
 
-Ball.prototype._checkBounds = function(engine) {
+Ball.prototype._checkBounds = function(game) {
     // huds
-    var scorePlayer = engine.actors.scorePlayer;
-    var scoreEnemy = engine.actors.scoreEnemy;
+    var scorePlayer = game.actors.scorePlayer;
+    var scoreEnemy = game.actors.scoreEnemy;
 
     // particle Emitter   
-    var particleEmitter = engine.childrenSurface.particleEmitter;
+    var particleEmitter = game.childrenSurface.particleEmitter;
 
     // left&right edges
     var wasToLeft = (this.x <= 0);
-    var wasToRight = (this.x + (this.width) >= engine.canvas.width);
+    var wasToRight = (this.x + (this.width) >= game.canvas.width);
 
     if (wasToLeft) {
         scoreEnemy.score += 1;
-        sound.ballOut();
+        game.sound.ballOut();
     } else if (wasToRight) {
         scorePlayer.score += 1;
-        sound.ballOut();
+        //sound.ballOut();
     }
 
     // Reset ball
     if (wasToLeft || wasToRight) {
         this.velocityX = Utils.getRandomValueFromArray([-5, 5]);
         this.velocityY = Utils.getRandomValueFromArray([-5, 5]);
-        this.x = engine.canvas.width / 2;
-        this.y = engine.canvas.height / 2;
+        this.x = game.canvas.width / 2;
+        this.y = game.canvas.height / 2;
         this.bounce = this.initialBounce;
     } 
 
     if ((this.y <= 0)) {
         this.velocityY *= this.bounce;
-        sound.boundResistance();
+        game.sound.boundResistance();
         particleEmitter.generate(this.x, this.y, Utils.getRandomValueFromArray([ 0, 180 ]), 1);
-    } else if ((this.y + (this.height*2) >= engine.canvas.height )) {
+    } else if ((this.y + (this.height*2) >= game.canvas.height )) {
         this.velocityY *= this.bounce;
-        sound.boundResistance();
+        game.sound.boundResistance();
         particleEmitter.generate(this.x, this.y + (this.height*2), Utils.getRandomValueFromArray([ 0, 180 ]), -1);
     } 
 };

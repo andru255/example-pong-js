@@ -35,7 +35,7 @@ function setup() {
 
     // adding particleEmitter
     game.addChildSurface('particleEmitter', particleEmitter);
-};
+}
 
 game.everyPreFrame = function(engine) {
     // decoration line
@@ -51,4 +51,22 @@ game.everyPreFrame = function(engine) {
 window.onload = function() {
     setup();
     game.start();
+    handleSound(game.getFeatures().sound.disable);
 };
+
+// UI controls
+// SOUND
+var lnkSoundHandler = document.getElementById("lnkSoundHandler");
+var statusHandler = document.getElementById("spnSoundStatus");
+function handleSound(byStatus) {
+    if ( byStatus ) {
+        return {value: false, label: "ON"};
+    }
+    return {value: true, label: "OFF"};
+}
+lnkSoundHandler.addEventListener("click", function () {
+    var features = game.getFeatures();
+    var handle = handleSound(features.sound.disable);
+    game.disabledSound = handle.value;
+    statusHandler.innerHTML = handle.label;
+});

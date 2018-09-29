@@ -68,25 +68,24 @@ Enemy.prototype._checkBounds = function(engine) {
 };
 
 // collision with ball
-Enemy.prototype._collisionWithBall = function(engine) {
-    var ball = engine.actors.ball;
+Enemy.prototype._collisionWithBall = function(gameFeatures) {
+    var ball = gameFeatures.actors.ball;
     ball.color = ball.defaultColor;
     this.color = this.defaultColor;
     // particle Emitter   
-    var particleEmitter = engine.childrenSurface.particleEmitter;
-
+    var particleEmitter = gameFeatures.childrenSurface.particleEmitter;
     if (Utils.itContainsAABB(ball, this)) {
+        console.log("change color!");
         this.angle = this._getAngleRotateOnCollision(ball);
-        ball.x = ( engine.canvas.width - this.width ) - ball.width;
+        ball.x = ( gameFeatures.canvas.width - this.width ) - ball.width;
         ball.velocityX *= ball.bounce;
         ball.velocityRadius *= ball.bounce;
         // generate sound
-        sound.paddleResistance();
+        gameFeatures.sound.paddleResistance();
+        particleEmitter.generate(ball.x, ball.y, Utils.getRandomValueFromArray([ -90, 0 ]), -1);
         // show some particles
         ball.color = this.touchedColor;
         this.color = this.touchedColor;
-        // show some particles
-        particleEmitter.generate(ball.x, ball.y, Utils.getRandomValueFromArray([ -90, 0 ]), -1);
     }
     this.angle += (0 - this.angle) * 0.1;
 };
