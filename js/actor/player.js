@@ -13,7 +13,9 @@ function Player() {
     this.velocityYMax = 25;
     this.acceleration = 2;
     this.friction = 0.85;
-    this.color = "#BC7593";
+    this.defaultColor = "#BC7593";
+    this.touchedColor = "#fff";
+    this.color = this.defaultColor;
     this.angle = 0 * Math.PI / 180; //radians
 }
 
@@ -77,7 +79,8 @@ Player.prototype._checkBounds = function(engine) {
 // collision with ball
 Player.prototype._collisionWithBall = function(engine) {
     var ball = engine.actors.ball;
-
+    ball.color = ball.defaultColor;
+    this.color = this.defaultColor;
     // classic collisions
     if (Utils.itContainsAABB(ball, this)) {
         this.angle = this._getAngleRotateOnCollision(ball);
@@ -85,8 +88,10 @@ Player.prototype._collisionWithBall = function(engine) {
         ball.velocityX *= ball.bounce;
         ball.velocityRadius *= ball.bounce;
         sound.paddleResistance();
+        particleEmitter.generate(ball.x, ball.y, Utils.getRandomValueFromArray([ -90, 0 ]), -1);
+        ball.color = this.touchedColor;
+        this.color = this.touchedColor;
     }
-
     this.angle += (0 - this.angle) * 0.1;
 };
 

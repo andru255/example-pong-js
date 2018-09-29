@@ -2,6 +2,7 @@
 var canvasId = "myCanvas";
 var game = new Game(canvasId);
 var sound = new Sound();
+var particleEmitter = new ParticleEmitter();
 
 // actors
 var player = new Player();
@@ -17,19 +18,24 @@ var promptWelcome = new PromptWelcome();
 var prompt = new Prompt();
 var promptResult = new PromptResult();
 
-// adding actors to the game
-game.addActor("player", player);
-game.addActor("enemy", enemy);
-game.addActor("ball", ball);
+function setup() {
+    // adding actors to the game
+    game.addActor("player", player);
+    game.addActor("enemy", enemy);
+    game.addActor("ball", ball);
 
-// adding HUD
-game.addActor("scorePlayer", scorePlayer);
-game.addActor("scoreEnemy", scoreEnemy);
+    // adding HUD
+    game.addActor("scorePlayer", scorePlayer);
+    game.addActor("scoreEnemy", scoreEnemy);
 
-// adding the prompt
-game.addChildSurface("promptWelcome", promptWelcome);
-game.addChildSurface("prompt", prompt);
-game.addChildSurface("promptResult", promptResult);
+    // adding the prompt
+    game.addChildSurface("promptWelcome", promptWelcome);
+    game.addChildSurface("prompt", prompt);
+    game.addChildSurface("promptResult", promptResult);
+
+    // adding particleEmitter
+    game.addChildSurface('particleEmitter', particleEmitter);
+};
 
 game.everyPreFrame = function(engine) {
     // decoration line
@@ -43,5 +49,6 @@ game.everyPreFrame = function(engine) {
 };
 
 window.onload = function() {
+    setup();
     game.start();
 };

@@ -9,7 +9,8 @@ function Ball(x, y, radius) {
     this.bounce = this.initialBounce;
     this.radius = radius || 20;
     this.lineWidth = 1;
-    this.color = "#65CBE2";
+    this.defaultColor = "#65CBE2";
+    this.color = this.defaultColor;
     this.width = this.radius;
     this.height = this.radius;
     this.angle = 0 * Math.PI / 180;
@@ -52,7 +53,6 @@ Ball.prototype.render = function(engine) {
 Ball.prototype._move = function(engine) {
     this.x += this.velocityX;
     this.y += this.velocityY;
-
     //rotation
     this.angle += this.velocityRadius;
 };
@@ -61,7 +61,10 @@ Ball.prototype._checkBounds = function(engine) {
     // huds
     var scorePlayer = engine.actors.scorePlayer;
     var scoreEnemy = engine.actors.scoreEnemy;
-    
+
+    // particle Emitter   
+    var particleEmitter = engine.childrenSurface.particleEmitter;
+
     // left&right edges
     var wasToLeft = (this.x <= 0);
     var wasToRight = (this.x + (this.width) >= engine.canvas.width);
@@ -83,8 +86,13 @@ Ball.prototype._checkBounds = function(engine) {
         this.bounce = this.initialBounce;
     } 
 
-    if ( (this.y <= 0) || (this.y + (this.height*2) >= engine.canvas.height ) ) {
+    if ((this.y <= 0)) {
         this.velocityY *= this.bounce;
         sound.boundResistance();
+        particleEmitter.generate(this.x, this.y, Utils.getRandomValueFromArray([ 0, 180 ]), 1);
+    } else if ((this.y + (this.height*2) >= engine.canvas.height )) {
+        this.velocityY *= this.bounce;
+        sound.boundResistance();
+        particleEmitter.generate(this.x, this.y + (this.height*2), Utils.getRandomValueFromArray([ 0, 180 ]), -1);
     } 
 };

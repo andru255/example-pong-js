@@ -1,4 +1,5 @@
-function Sound() {
+function Sound(enable) {
+    this.enable = enable || true;
 }
 
 Sound.prototype.boundResistance = function() {
